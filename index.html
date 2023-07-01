@@ -127,7 +127,7 @@
 								<div class="input-group">
 									<input type="text" class="form-control" placeholder="Loại người dùng" id="searchName">
 									<div class="input-group-prepend">
-										<span class="input-group-text" id="btnTimNV"><i class="fa fa-search"></i></span>
+										<span class="input-group-text" id="btnTimNVD"><i class="fa fa-search"></i></span>
 									</div>
 								</div>
 							</div>
@@ -183,7 +183,7 @@
 				<!-- Modal body -->
 				<div class="modal-body">
 
-					<form role="form">
+					<form role="form" id="form">
 
 						<div class="form-group">
 							<span class="sp-thongbao" id="tbTKNV"></span>
@@ -238,11 +238,12 @@
 									<span class="input-group-text"><i class="fa fa-briefcase"></i></span>
 								</div>
 								<select class="form-control" id="loaiND" onchange="showFields()">
-									<option>Chọn loại người dùng</option>
+									<option>ALL</option>
 									<option>Student</option>
 									<option>Employee</option>
 									<option>Customer</option>
 								</select>
+								<button class="btn btn-success sort-btn" id="locTheoTen">Name <i id="sortArrowIcon" class="fa-solid fa-sort-down"></i></button>
 							</div>
 							<span class="sp-thongbao" id="tbLoaiND"></span>
 						</div>
@@ -347,8 +348,27 @@
 			});
 		});
 	</script>
+	<script>
+		var loginLink = document.getElementById("btnThem");
+		var loginModal = document.getElementById("myModal");
+		var closeModal = document.querySelector("#myModal .close");
 
-	<script src="./js/baitap/loainguoidung.js"></script>
+		loginLink.onclick = function () {
+			$(loginModal).modal("show");
+		}
+
+		
+	</script>
+	<!-- <script>
+		var sidebarToggle = document.getElementById('sidebar-toggle')
+		var sidebar = document.getElementById('sidebar')
+		sidebarToggle.addEventListener('click', function(){
+			sidebar.classList.toggle('active')
+		})
+
+	</script> -->
+
+
 	<script type="module" src="./js/baitap/main.js"></script>
 	
 </body>

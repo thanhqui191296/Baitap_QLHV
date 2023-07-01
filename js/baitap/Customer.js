@@ -1,18 +1,19 @@
 import { Person } from "./Person.js";
 
-class Customer extends Person{
-    constructor(tenCTY, triGiaHD, danhGia,...restPerson){
-        super(...restPerson);
+export class Customer extends Person{
+    constructor(hoTen,diaChi,ma,email,tenCTY, triGiaHD, danhGia,){
+        super(hoTen,diaChi,ma,email);
         this.tenCTY = tenCTY;
         this.triGiaHD = triGiaHD;
         this.danhGia = danhGia;
     }
-    getCty(){
-        return`
-        <h1>${this.tenCTY}</h1>
-        <p>${this.triGiaHD}</p>
-        <p>${this.danhGia}</p>
-        `
-    }
+   get companyName(){
+    return this.tenCTY
+   }
+   get triGiaHoaDon(){
+    return this.triGiaHD
+   }
+   get danhGia(){
+    return this.danhGia
+   }
 }
-export { Customer };
