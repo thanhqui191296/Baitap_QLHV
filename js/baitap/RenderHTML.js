@@ -1,28 +1,33 @@
+import { Person } from "./Person.js";
 import { listPerson } from "./main.js";
 import { showNotification } from "./showNotification.js";
+
+
 export const renderHTML = (persons) => {
-    const userContent = document.getElementById('tableDanhSach')
-    userContent.innerHTML = ''
+    const userContent = document.getElementById('tableDanhSach');
+    userContent.innerHTML = '';
     persons.forEach(person => {
-        const tr = `
-    <tr>
-        <td>${person.hoTen}</td>
-        <td>${person.email}</td>    
-        <td>${person.diaChi}</td>
-        <td>${person.ma}</td>
-        <td>${person.loaiND}</td>
-        <td>
-                    <button class="btn btn-success view-info-btn" data-person-name="${person.hoTen}">Xem thông tin</button>
+        const row = `
+            <tr>
+                <td>${Person.hoTen}</td>
+                <td>${Person.email}</td>
+                <td>${Person.diaChi}</td>
+                <td>${Person.ma}</td>
+                <td>${Person.loaiND}</td>
+                <td>
+                    <button class="btn btn-success view-info-btn" data-person-name="${Person.hoTen}">Xem thông tin</button>
                 </td>
                 <td>
-                <button class="btn btn-primary btn-sm btn-userinfo" data-person-name="${person.hoTen}" data-toggle="modal"
+                <button class="btn btn-primary btn-sm btn-userinfo" data-person-name="${Person.hoTen}" data-toggle="modal"
                 data-target="#myModal"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button  class="btn btn-danger btn-sm btn-delete" data-person-name="${person.hoTen}"><i class="fa-solid fa-trash"></i></button>
+                <button  class="btn btn-danger btn-sm btn-delete" data-person-name="${Person.hoTen}"><i class="fa-solid fa-trash"></i></button>
                 </td>
-    </tr>
-    `;
-        userContent.innerHTML += tr
+
+            </tr>
+        `;
+        userContent.innerHTML += row
     })
+
     const viewInfoButtons = document.querySelectorAll('.view-info-btn')
     viewInfoButtons.forEach(button => {
         button.addEventListener('click', handleViewInfo)
@@ -41,13 +46,13 @@ export const renderHTML = (persons) => {
 const handleViewInfo = (event) => {
     event.preventDefault()
     const personName = event.target.dataset.personName
-    const storedPersons  = localStorage.getItem("persons");
-    if (storedPersons ) {
-        const persons = JSON.parse(storedPersons )
-        const person = persons.find(p => p.hoTen === personName)
+    const storedPersons = localStorage.getItem("persons");
+    if (storedPersons) {
+        const persons = JSON.parse(storedPersons)
+        const person = persons.find(p => person.hoTen === personName)
         let popupContent = "";
         let popupSubtitle = "";
-        if (person.loaiND === "Student") {
+        if (person.type === "Student") {
             popupSubtitle = "Student";
             popupContent = `
             <label for="field1">Điểm toán</label>
@@ -61,7 +66,7 @@ const handleViewInfo = (event) => {
                     👉<span id="txtArray">${person.dtb}</span>
                 </div> 
             `;
-        } else if (person.loaiND === "Employee") {
+        } else if (person.type === "Employee") {
             popupSubtitle = "Employee"
             popupContent = `
             <label for="field1">Số ngày làm việc :</label>
@@ -73,7 +78,7 @@ const handleViewInfo = (event) => {
                     👉<span id="txtArray">${person.luong}</span>
                 </div> 
             `
-        } else if (person.loaiND === "Customer") {
+        } else if (person.type === "Customer") {
             popupSubtitle = "Customer";
             popupContent = `
             <label for="field1">Tên công ty :</label>
@@ -101,7 +106,7 @@ const showPopup = (personName, popupSubtitle, popupContent) => {
         </div>
     `;
     const tempDiv = document.createElement('div')
-    tempDiv.innerHTML = popupHTML 
+    tempDiv.innerHTML = popupHTML
     const popup = tempDiv.firstElementChild
     const closeButton = popup.querySelector('.popup-close');
     closeButton.addEventListener('click', () => {
@@ -111,7 +116,7 @@ const showPopup = (personName, popupSubtitle, popupContent) => {
 }
 const handleDeletePerson = (event) => {
     const personName = event.currentTarget.dataset.personName
-    const person = listPerson .persons.find(p => p.hoTen === personName)
+    const person = listPerson.persons.find(p => p.hoTen === personName)
     if (person) {
         const confirmation = confirm("Xóa người dùng này!!")
         if (confirmation) {
@@ -124,30 +129,31 @@ const handleDeletePerson = (event) => {
 }
 const handleShowUser = (event) => {
     const personName = event.currentTarget.dataset.personName
-    const person = listPerson .persons.find(p => p.hoTen === personName)
+    const person = listPerson.persons.find(p => p.hoTen === personName)
     if (person) {
-        const index = listPerson .persons.findIndex(person => person.ma === person.ma)
+        const index = listPerson.persons.findIndex(person => person.ma === person.ma)
         if (index > -1) {
-            const userInfor = listPerson .persons[index]
+            const userInfor = listPerson.persons[index]
             document.getElementById('name').value = userInfor.hoTen
             document.getElementById('diachi').value = userInfor.diaChi
             document.getElementById('ma').value = userInfor.ma
-            document.getElementById('loaiND').value = userInfor.loaiND
+            document.getElementById('loaiND').value = userInfor.type
             document.getElementById('email').value = userInfor.email
             window.showFields('loaiND')
+            if (userInfor.type === "Student") {
+                document.getElementById('toan').value = userInfor.toan
+                document.getElementById('ly').value = userInfor.ly
+                document.getElementById('hoa').value = userInfor.hoa
+            } else if (userInfor.type === "Employee") {
+                document.getElementById('soNgayLam').value = userInfor.soNgayLam
+                document.getElementById('luongTheoNgay').value = userInfor.luongTheoNgay
+            } else if (userInfor.type === "Customer") {
+                document.getElementById('cty').value = userInfor.tenCTY
+                document.getElementById('hoaDon').value = userInfor.triGiaHD
+                document.getElementById('danhGia').value = userInfor.danhGia
+            }
+            listPerson.saveToLocalStorage()
         }
-        if (userInfor.loaiND === "Student") {
-            document.getElementById('toan').value = userInfor.toan
-            document.getElementById('ly').value = userInfor.ly
-            document.getElementById('hoa').value = userInfor.hoa
-        } else if (userInfor.loaiND === "Employee") {
-            document.getElementById('soNgayLam').value = userInfor.soNgayLam
-            document.getElementById('luongTheoNgay').value = userInfor.luongTheoNgay
-        } else if (userInfor.loaiND === "Customer") {
-            document.getElementById('cty').value = userInfor.tenCTY
-            document.getElementById('hoaDon').value = userInfor.triGiaHD
-            document.getElementById('danhGia').value = userInfor.danhGia
-        }
-        listPerson.saveToLocalStorage()
+
     }
 }

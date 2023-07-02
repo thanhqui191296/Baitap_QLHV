@@ -8,10 +8,10 @@ export class Employee extends Person {
         this.luongTheoNgay = luongTheoNgay;
         this.loaiND = "Employee"
     }
-    getWork() {
+    get Work() {
         return this.soNgayLam
     }
-    getdailySalary() {
+    get dailySalary() {
         return this.luongTheoNgay
     }
     getLuong() {

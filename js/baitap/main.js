@@ -14,25 +14,25 @@ const addPerson = () => {
     const hoTen = document.getElementById('name').value
     const diaChi = document.getElementById('diachi').value
     const ma = document.getElementById('ma').value;
-    const loaiND = document.getElementById('loaiND').value;
+    const type = document.getElementById('loaiND').value;
     const email = document.getElementById('email').value
     let person;
-    if (loaiND === "Student") {
+    if (type === "Student") {
         const toan = +document.getElementById('toan').value
         const ly = +document.getElementById('ly').value;
         const hoa = +document.getElementById('hoa').value;
         person = new Student(hoTen,diaChi,ma,email,toan, ly, hoa);
         person.getDiemTrungBinh()
-    } else if (loaiND === "Employee") {
+    } else if (type === "Employee") {
         const soNgayLam = +document.getElementById('soNgayLam').value
         const luongTheoNgay = +document.getElementById('luongTheoNgay').value
         person = new Employee(hoTen, diaChi, ma, email,soNgayLam, luongTheoNgay);
         person.getLuong()
-    } else if (loaiND === "Customer") {
+    } else if (type === "Customer") {
         const tenCTY = document.getElementById('cty').value;
         const triGiaHD = document.getElementById('hoaDon').value;
         const danhGia = document.getElementById('danhGia').value;
-        new Customer(hoTen, diaChi, ma, email,tenCTY, triGiaHD, danhGia);
+        person = new Customer(hoTen, diaChi, ma, email,tenCTY, triGiaHD, danhGia);
     }
     listPerson.addPerson(person)
     listPerson.saveToLocalStorage();
@@ -43,13 +43,13 @@ const addPerson = () => {
 }
 document.getElementById('btnThemND').addEventListener('click', addPerson)
 
-window.showFields = (loaiND) => {
+window.showFields = (selectID) => {
     document.getElementById('studentFiedlds').style.display = "none"
     document.getElementById('employeeFields').style.display = "none"
     document.getElementById('customerFields').style.display = "none"
-    if(loaiND === "loaiND"){
-        const select = document.getElementById('loaiND')
-        const selectedOption  =select.options[select.selectedIndex].text
+    if(selectID === "loaiND"){
+        const select = document.getElementById(selectID)
+        const selectedOption  = select.options[select.selectedIndex].text
         if(selectedOption === "Student"){
             document.getElementById('studentFiedlds').style.display = "block"
         } else if(selectedOption === "Employee"){
@@ -64,25 +64,25 @@ const updatePerson = () => {
     const hoTen = document.getElementById('name').value
     const diaChi = document.getElementById('diachi').value
     const ma = document.getElementById('ma').value;
-    const loaiND = document.getElementById('loaiND').value;
+    const type = document.getElementById('loaiND').value;
     const email = document.getElementById('email').value
     let person;
-    if (loaiND === "Student") {
+    if (type === "Student") {
         const toan = +document.getElementById('toan').value
         const ly = +document.getElementById('ly').value;
         const hoa = +document.getElementById('hoa').value;
         person = new Student(toan, ly, hoa, hoTen, diaChi, ma, email);
         person.getDiemTrungBinh()
-    } else if (loaiND === "Employee") {
+    } else if (type === "Employee") {
         const soNgayLam = +document.getElementById('soNgayLam').value
         const luongTheoNgay = +document.getElementById('luongTheoNgay').value
         person = new Employee(soNgayLam, luongTheoNgay, hoTen, diaChi, ma, email);
         person.getLuong()
-    } else if (loaiND === "Customer") {
+    } else if (type === "Customer") {
         const tenCTY = document.getElementById('cty').value;
         const triGiaHD = document.getElementById('hoaDon').value;
         const danhGia = document.getElementById('danhGia').value;
-        new Customer(tenCTY, triGiaHD, danhGia, hoTen, diaChi, ma, email);
+        person = new Customer(tenCTY, triGiaHD, danhGia, hoTen, diaChi, ma, email);
     }
     const isUpdate = listPerson.updatePerson(person)
     if (isUpdate) {
@@ -101,9 +101,9 @@ const resetForm = () => {
 }
 const filterByLoaiND = () => {
     const selectEle = document.getElementById('loaiND');
-    const selecLoai = selectEle.value
-    const filteredPersons = listPerson.filterByLoaiND(selecLoai)
-    renderHTML(filterByLoaiND)
+    const selectedType = selectEle.value
+    const filteredPersons = listPerson.filterByLoaiND(selectedType)
+    renderHTML(filteredPersons)
 };
 const selectEle = document.getElementById('loaiND');
 selectEle.addEventListener('change', filterByLoaiND)
@@ -130,9 +130,9 @@ searchInput.addEventListener('input', searchPersonByName)
 function searchPersonByName() {
     const key = searchInput.value.toLowerCase()
     const savedList = localStorage.getItem("persons");
-    let DSND = []
+    let persons  = []
     if (savedList) {
-        DSND = JSON.parse(savedList)
+        persons  = JSON.parse(savedList)
     }
     const searchPerson = persons.filter(person => person.name.toLowerCase().includes(key))
     renderHTML(searchPerson)

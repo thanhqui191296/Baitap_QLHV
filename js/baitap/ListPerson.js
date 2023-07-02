@@ -1,34 +1,27 @@
+import { Person } from "./Person.js";
 
  export class ListPerson {
     constructor() {
         this.persons = [];
     }
-    addPerson(person) {
-        this.persons.push(person)
+    addPerson(Person) {
+        this.persons.push(Person)
     }
     removePerson(ma) {
-        this.persons = this.persons.filter(person => person.ma !== ma)
+        this.persons = this.persons.filter(person => Person.ma !== ma)
     }
     updatePerson(ma, updatedPerson) {
-        const index = this.persons.findIndex(person => person.ma === ma);
+        const index = this.persons.findIndex(person => Person.ma === ma);
         if (index !== -1) {
             this.persons[index] = updatedPerson
         }
     }
-    saveToLocalStorage() {
-        localStorage.setItem("persons", JSON.stringify(this.persons))
-    }
-    restoreFromLocalStorage() {
-        const storedPersons  = localStorage.getItem("persons");
-        if (storedPersons ) {
-            this.persons = JSON.parse(storedPersons )
-        }
-    }
-    filterByLoaiND(selectedLoai){
-        if(selectedLoai === "ALL"){
+  
+    filterByLoaiND(selectedType){
+        if(selectedType === "ALL"){
             return this.persons
         } else{
-            return this.persons.filter(person => person.ma === selectedLoai)
+            return this.persons.filter(person => Person.type === selectedType)
         }
     }
     findIndex(ma){
@@ -55,6 +48,15 @@
             }
             return 0
         })
+    }
+    saveToLocalStorage() {
+        localStorage.setItem("persons", JSON.stringify(this.persons))
+    }
+    restoreFromLocalStorage() {
+        const storedPersons  = localStorage.getItem("persons");
+        if (storedPersons ) {
+            this.persons = JSON.parse(storedPersons )
+        }
     }
 }
 
