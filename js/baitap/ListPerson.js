@@ -8,10 +8,10 @@ import { Person } from "./Person.js";
         this.persons.push(Person)
     }
     removePerson(ma) {
-        this.persons = this.persons.filter(person => Person.ma !== ma)
+        this.persons = this.persons.filter(person => person.ma !== ma)
     }
     updatePerson(ma, updatedPerson) {
-        const index = this.persons.findIndex(person => Person.ma === ma);
+        const index = this.persons.findIndex(person => person.ma === ma);
         if (index !== -1) {
             this.persons[index] = updatedPerson
         }
@@ -21,7 +21,7 @@ import { Person } from "./Person.js";
         if(selectedType === "ALL"){
             return this.persons
         } else{
-            return this.persons.filter(person => Person.type === selectedType)
+            return this.persons.filter(person => person.type === selectedType)
         }
     }
     findIndex(ma){

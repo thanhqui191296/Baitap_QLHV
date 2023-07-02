@@ -6,7 +6,7 @@ export class Employee extends Person {
         super(hoTen, diaChi, ma, email,);
         this.soNgayLam = soNgayLam;
         this.luongTheoNgay = luongTheoNgay;
-        this.loaiND = "Employee"
+        this.type = "Employee"
     }
     get Work() {
         return this.soNgayLam

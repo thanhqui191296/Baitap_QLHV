@@ -14,7 +14,7 @@ export class Customer extends Person{
    get triGiaHoaDon(){
     return this.triGiaHD
    }
-   get danhGia(){
+   get danhGiaCustomer(){
     return this.danhGia
    }
 }

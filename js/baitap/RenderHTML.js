@@ -7,27 +7,30 @@ export const renderHTML = (persons) => {
     const userContent = document.getElementById('tableDanhSach');
     userContent.innerHTML = '';
     persons.forEach(person => {
+        // person trong scope nay ma, ok chua ne oki a
+        console.log(person)
         const row = `
             <tr>
-                <td>${Person.hoTen}</td>
-                <td>${Person.email}</td>
-                <td>${Person.diaChi}</td>
-                <td>${Person.ma}</td>
-                <td>${Person.loaiND}</td>
+                <td>${person.hoTen}</td>
+                <td>${person.email}</td>
+                <td>${person.diaChi}</td>
+                <td>${person.ma}</td>
+                <td>${person.type}</td>
                 <td>
-                    <button class="btn btn-success view-info-btn" data-person-name="${Person.hoTen}">Xem thông tin</button>
+                    <button class="btn btn-success view-info-btn" data-person-name="${person.hoTen}">Xem thông tin</button>
                 </td>
                 <td>
-                <button class="btn btn-primary btn-sm btn-userinfo" data-person-name="${Person.hoTen}" data-toggle="modal"
+                <button class="btn btn-primary btn-sm btn-userinfo" data-person-name="${person.hoTen}" data-toggle="modal"
                 data-target="#myModal"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button  class="btn btn-danger btn-sm btn-delete" data-person-name="${Person.hoTen}"><i class="fa-solid fa-trash"></i></button>
+                <button  class="btn btn-danger btn-sm btn-delete" data-person-name="${person.hoTen}"><i class="fa-solid fa-trash"></i></button>
                 </td>
 
             </tr>
         `;
         userContent.innerHTML += row
+        console.log(person)
     })
-
+    
     const viewInfoButtons = document.querySelectorAll('.view-info-btn')
     viewInfoButtons.forEach(button => {
         button.addEventListener('click', handleViewInfo)
@@ -49,7 +52,7 @@ const handleViewInfo = (event) => {
     const storedPersons = localStorage.getItem("persons");
     if (storedPersons) {
         const persons = JSON.parse(storedPersons)
-        const person = persons.find(p => person.hoTen === personName)
+        const person = persons.find(p => p.hoTen === personName)
         let popupContent = "";
         let popupSubtitle = "";
         if (person.type === "Student") {
